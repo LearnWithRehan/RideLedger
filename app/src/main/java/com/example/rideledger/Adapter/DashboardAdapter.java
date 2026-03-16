@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rideledger.Model.DashboardItem;
 import com.example.rideledger.R;
+import com.example.rideledger.Screen.PlatfomrWiseIncome_Screen;
 import com.example.rideledger.Screen.RideEntry_Screen;
 import com.example.rideledger.Screen.TodayReportActivity_Screen;
 
@@ -59,7 +60,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
             else if (position == 2) {
                 // Date Report
-                Intent intent = new Intent(context, TodayReportActivity_Screen.class);
+                Intent intent = new Intent(context, PlatfomrWiseIncome_Screen.class);
                 context.startActivity(intent);
             }
 

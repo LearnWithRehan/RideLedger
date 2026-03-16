@@ -1,81 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F6FA"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F1F4FF">
 
-    <TextView
+    <!-- HEADER -->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ride Report"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="#1A237E"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_report_header"
         android:gravity="center"
-        android:layout_marginBottom="15dp"/>
+        android:orientation="vertical">
 
-    <!-- FROM DATE -->
+        <TextView
+            android:text="Ride Report"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/etFromDate"
+    </LinearLayout>
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="From Date"
-        android:focusable="false"
-        android:padding="10dp"/>
+        android:layout_height="match_parent">
 
-    <!-- TO DATE -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/etToDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="To Date"
-        android:focusable="false"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/btnShow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show Report"
-        android:layout_marginTop="10dp"/>
+            <!-- DATE FILTER CARD -->
 
-    <!-- TOTALS -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="16dp"
+                card_view:cardElevation="6dp"
+                android:layout_marginBottom="16dp">
 
-    <TextView
-        android:id="@+id/tvTotalProfit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Profit ₹ 0"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="#2E7D32"
-        android:layout_marginTop="15dp"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvTotalFuel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Fuel ₹ 0"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+                    <EditText
+                        android:id="@+id/etFromDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="From Date"
+                        android:background="@drawable/bg_edittext"
+                        android:padding="12dp"
+                        android:focusable="false"/>
 
-    <TextView
-        android:id="@+id/tvTotalCng"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total CNG ₹ 0"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+                    <EditText
+                        android:id="@+id/etToDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="To Date"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_edittext"
+                        android:padding="12dp"
+                        android:focusable="false"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerReport"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"/>
+                    <Button
+                        android:id="@+id/btnShow"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Show Report"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_button"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <!-- SUMMARY TITLE -->
+
+            <TextView
+                android:text="Summary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <!-- SUMMARY GRID -->
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="4">
+
+                <!-- TOTAL INCOME -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    card_view:cardCornerRadius="14dp"
+                    card_view:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="Amount"
+                            android:textColor="#1565C0"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTotalAmount"
+                            android:text="₹"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- FUEL -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    card_view:cardCornerRadius="14dp"
+                    card_view:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="Fuel"
+                            android:textColor="#E65100"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTotalFuel"
+                            android:text="₹0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#E65100"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- CNG -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    card_view:cardCornerRadius="14dp"
+                    card_view:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="CNG"
+                            android:textColor="#6A1B9A"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTotalCng"
+                            android:text="₹0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#6A1B9A"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <!-- PROFIT -->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    card_view:cardCornerRadius="14dp"
+                    card_view:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="Profit"
+                            android:textColor="#2E7D32"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvTotalProfit"
+                            android:text="₹0"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#2E7D32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+
+            <!-- LIST -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

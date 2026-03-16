@@ -29,7 +29,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
     EditText etFromDate, etToDate;
     Button btnShow;
 
-    TextView tvTotalProfit, tvTotalFuel, tvTotalCng;
+    TextView tvTotalAmount,tvTotalProfit, tvTotalFuel, tvTotalCng;
 
     RecyclerView recyclerReport;
 
@@ -50,6 +50,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         etToDate = findViewById(R.id.etToDate);
         btnShow = findViewById(R.id.btnShow);
 
+        tvTotalAmount = findViewById(R.id.tvTotalAmount);
         tvTotalProfit = findViewById(R.id.tvTotalProfit);
         tvTotalFuel = findViewById(R.id.tvTotalFuel);
         tvTotalCng = findViewById(R.id.tvTotalCng);
@@ -122,6 +123,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
                         list.clear();
 
+                        int totalAmount = 0;
                         int totalProfit = 0;
                         int totalFuel = 0;
                         int totalCng = 0;
@@ -138,6 +140,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
                                     list.add(model);
 
+                                    totalAmount += model.getTotal();
                                     totalProfit += model.getProfit();
                                     totalFuel += model.getFuel();
                                     totalCng += model.getCng();
@@ -152,9 +155,10 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
                         adapter.notifyDataSetChanged();
 
-                        tvTotalProfit.setText("Total Profit ₹ " + totalProfit);
-                        tvTotalFuel.setText("Total Fuel ₹ " + totalFuel);
-                        tvTotalCng.setText("Total CNG ₹ " + totalCng);
+                        tvTotalAmount.setText(String.valueOf(totalAmount));
+                        tvTotalFuel.setText(String.valueOf(totalFuel));
+                        tvTotalCng.setText(String.valueOf(totalCng));
+                        tvTotalProfit.setText(String.valueOf(totalProfit));
 
                     });
 

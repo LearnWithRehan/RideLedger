@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RideLedger">
         <activity
+            android:name=".Screen.PlatfomrWiseIncome_Screen"
+            android:exported="false" />
+        <activity
             android:name=".Screen.TodayReportActivity_Screen"
             android:exported="false" />
         <activity
