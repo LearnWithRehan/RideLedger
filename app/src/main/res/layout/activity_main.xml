@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4F6F8">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/bg_dashboard_header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ride Ledger  Dashboard"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Reports &amp; Analytics"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:layout_marginTop="6dp"/>
+
+    </LinearLayout>
+
+
+    <!-- DASHBOARD GRID -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerDashboard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="20dp"
+        android:clipToPadding="false"/>
+
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="14dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Smart Billing • Easy Manage • Better Business"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:textStyle="italic"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developed with ❤ Rehan Khan(7209658008)"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"/>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

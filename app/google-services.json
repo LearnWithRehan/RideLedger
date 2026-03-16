@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46806469059",
+    "project_id": "rideledger2026",
+    "storage_bucket": "rideledger2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46806469059:android:343e66131b248b8a6c9576",
+        "android_client_info": {
+          "package_name": "com.example.rideledger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2yJOu7FOSBULigiLy_I_2X8eRcOfDx_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

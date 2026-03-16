@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6FA"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ride Entry"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#1A237E"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Date -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select Date"
+            app:startIconDrawable="@android:drawable/ic_menu_my_calendar"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDate"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Platform -->
+        <!-- Platform Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Platform"
+            android:textStyle="bold"
+            android:textColor="#1A237E"
+            android:textSize="14sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"/>
+
+        <!-- Spinner Box -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_spinner"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp">
+
+            <Spinner
+                android:id="@+id/spPlatform"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
+        <!-- Cash Earnings -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cash Earnings"
+            android:layout_marginTop="16dp"
+            app:startIconDrawable="@android:drawable/ic_menu_add"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCash"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Online Earnings -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Online Earnings"
+            android:layout_marginTop="16dp"
+            app:startIconDrawable="@android:drawable/ic_menu_send"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etOnline"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Fuel Cost -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fuel Cost"
+            android:layout_marginTop="16dp"
+            app:startIconDrawable="@android:drawable/ic_menu_compass"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFuel"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- CNG Cost -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CNG Cost"
+            android:layout_marginTop="16dp"
+            app:startIconDrawable="@android:drawable/ic_menu_directions"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCng"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Total Earnings -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Total Earnings"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTotal"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Net Profit -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Net Profit"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etProfit"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btnSaveRide"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Save Ride Entry"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#3949AB"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvTodayTitle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Today's Entries"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1A237E"/>
+
+            <TextView
+                android:id="@+id/tvTodayTotalProfit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profit ₹0"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#2E7D32"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTodayRide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F6FA"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ride Report"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#1A237E"
+        android:gravity="center"
+        android:layout_marginBottom="15dp"/>
+
+    <!-- Date Select -->
+
+    <EditText
+        android:id="@+id/etSelectDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Select Date"
+        android:focusable="false"
+        android:background="@android:drawable/edit_text"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Report"
+        android:layout_marginTop="10dp"/>
+
+    <!-- Totals -->
+
+    <TextView
+        android:id="@+id/tvTotalProfit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Profit ₹ 0"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#2E7D32"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tvTotalFuel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Fuel ₹ 0"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tvTotalCng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total CNG ₹ 0"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerReport"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

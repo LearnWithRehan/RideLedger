@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtPlatform"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtCash"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtOnline"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtFuel"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtCng"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtProfit"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textColor="#2E7D32"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_delete"/>
+
+    </LinearLayout>
+
+</HorizontalScrollView>
