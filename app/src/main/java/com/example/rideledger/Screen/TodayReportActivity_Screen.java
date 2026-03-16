@@ -17,16 +17,19 @@ import com.example.rideledger.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class TodayReportActivity_Screen extends AppCompatActivity {
 
-    EditText etSelectDate;
+    EditText etFromDate, etToDate;
     Button btnShow;
 
-    TextView tvTotalProfit,tvTotalFuel,tvTotalCng;
+    TextView tvTotalProfit, tvTotalFuel, tvTotalCng;
 
     RecyclerView recyclerReport;
 
@@ -36,13 +39,15 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
     List<RideModel> list = new ArrayList<>();
 
+    SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today_report_screen);
 
-        etSelectDate = findViewById(R.id.etSelectDate);
+        etFromDate = findViewById(R.id.etFromDate);
+        etToDate = findViewById(R.id.etToDate);
         btnShow = findViewById(R.id.btnShow);
 
         tvTotalProfit = findViewById(R.id.tvTotalProfit);
@@ -53,32 +58,34 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
         recyclerReport.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TodayRideAdapter(this,list);
+        adapter = new TodayRideAdapter(this, list);
         recyclerReport.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
 
-        setupDatePicker();
+        setupDatePicker(etFromDate);
+        setupDatePicker(etToDate);
 
         btnShow.setOnClickListener(v -> {
 
-            String date = etSelectDate.getText().toString();
+            String fromDate = etFromDate.getText().toString();
+            String toDate = etToDate.getText().toString();
 
-            if(date.isEmpty()){
-
-                Toast.makeText(this,"Please select date",Toast.LENGTH_SHORT).show();
+            if(fromDate.isEmpty() || toDate.isEmpty()){
+                Toast.makeText(this,"Please select From and To date",Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            loadReport(date);
+            loadReport(fromDate, toDate);
 
         });
 
     }
 
-    private void setupDatePicker(){
 
-        etSelectDate.setOnClickListener(v -> {
+    private void setupDatePicker(EditText editText){
+
+        editText.setOnClickListener(v -> {
 
             Calendar calendar = Calendar.getInstance();
 
@@ -90,7 +97,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
                 String date = d + "/" + (m+1) + "/" + y;
 
-                etSelectDate.setText(date);
+                editText.setText(date);
 
             },year,month,day);
 
@@ -100,38 +107,60 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
     }
 
-    private void loadReport(String selectedDate){
 
-        db.collection("ride_entries")
-                .whereEqualTo("rideDate",selectedDate)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
 
-                    list.clear();
+    private void loadReport(String fromDate, String toDate){
 
-                    int totalProfit = 0;
-                    int totalFuel = 0;
-                    int totalCng = 0;
+        try {
 
-                    for(DocumentSnapshot doc : queryDocumentSnapshots){
+            Date from = sdf.parse(fromDate);
+            Date to = sdf.parse(toDate);
 
-                        RideModel model = doc.toObject(RideModel.class);
+            db.collection("ride_entries")
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
 
-                        list.add(model);
+                        list.clear();
 
-                        totalProfit += model.getProfit();
-                        totalFuel += model.getFuel();
-                        totalCng += model.getCng();
+                        int totalProfit = 0;
+                        int totalFuel = 0;
+                        int totalCng = 0;
 
-                    }
+                        for(DocumentSnapshot doc : queryDocumentSnapshots){
 
-                    adapter.notifyDataSetChanged();
+                            RideModel model = doc.toObject(RideModel.class);
 
-                    tvTotalProfit.setText("Total Profit ₹ " + totalProfit);
-                    tvTotalFuel.setText("Total Fuel ₹ " + totalFuel);
-                    tvTotalCng.setText("Total CNG ₹ " + totalCng);
+                            try {
 
-                });
+                                Date ride = sdf.parse(model.getRideDate());
+
+                                if(ride.compareTo(from) >= 0 && ride.compareTo(to) <= 0){
+
+                                    list.add(model);
+
+                                    totalProfit += model.getProfit();
+                                    totalFuel += model.getFuel();
+                                    totalCng += model.getCng();
+
+                                }
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        adapter.notifyDataSetChanged();
+
+                        tvTotalProfit.setText("Total Profit ₹ " + totalProfit);
+                        tvTotalFuel.setText("Total Fuel ₹ " + totalFuel);
+                        tvTotalCng.setText("Total CNG ₹ " + totalCng);
+
+                    });
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
