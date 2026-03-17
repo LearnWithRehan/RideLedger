@@ -52,13 +52,22 @@ public class MainActivity extends AppCompatActivity {
         setupDashboard();
     }
 
+
+
     private void loadTodayData(){
+
         String todayDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
         db.collection("ride_entries")
                 .whereEqualTo("createdDate", todayDate)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
+                .addSnapshotListener((queryDocumentSnapshots, error) -> {
+
+                    if (error != null) {
+                        error.printStackTrace();
+                        return;
+                    }
+
+                    if (queryDocumentSnapshots == null) return;
 
                     int income = 0;
                     int fuel = 0;
@@ -67,24 +76,46 @@ public class MainActivity extends AppCompatActivity {
 
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
 
-                        Long total = doc.getLong("total");
-                        Long fuelAmount = doc.getLong("fuel");
-                        Long cngAmount = doc.getLong("cng");
+                        String createdDate = doc.getString("createdDate");
+                        String rideDateStr = doc.getString("rideDate");
 
-                        if (total != null) income += total;
-                        if (fuelAmount != null) fuel += fuelAmount;
-                        if (cngAmount != null) cng += cngAmount;
+                        try {
+                            // rideDate format: dd/M/yyyy
+                            SimpleDateFormat rideFormat = new SimpleDateFormat("dd/M/yyyy", Locale.getDefault());
+                            Date rideDate = rideFormat.parse(rideDateStr);
 
-                        profit += (total - fuelAmount - cngAmount);
+                            // convert to dd-MM-yyyy
+                            SimpleDateFormat targetFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                            String formattedRideDate = targetFormat.format(rideDate);
+
+                            // ✅ MATCH CONDITION
+                            if (formattedRideDate.equals(createdDate)) {
+
+                                Long total = doc.getLong("total");
+                                Long fuelAmount = doc.getLong("fuel");
+                                Long cngAmount = doc.getLong("cng");
+
+                                if (total != null) income += total;
+                                if (fuelAmount != null) fuel += fuelAmount;
+                                if (cngAmount != null) cng += cngAmount;
+
+                                if (total != null && fuelAmount != null && cngAmount != null) {
+                                    profit += (total - fuelAmount - cngAmount);
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
+                    // 🔥 AUTO UPDATE UI
                     tvTodayIncome.setText("₹ " + income);
                     tvTodayFuel.setText("₹ " + fuel);
                     tvTodayCng.setText("₹ " + cng);
                     tvTodayProfit.setText("₹ " + profit);
 
                 });
-
     }
 
 
