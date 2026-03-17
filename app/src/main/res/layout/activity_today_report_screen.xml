@@ -9,22 +9,34 @@
 
     <!-- HEADER -->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@drawable/bg_report_header"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:background="@drawable/bg_report_header">
 
+        <!-- Title Center -->
         <TextView
+            android:id="@+id/tvTitle"
             android:text="Ride Report"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
+            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+        <!-- PDF Icon -->
+        <ImageView
+            android:id="@+id/btnPdf"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/ic_menu_save"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            card_view:tint="#FFFFFF" />
+
+    </RelativeLayout>
 
 
     <ScrollView

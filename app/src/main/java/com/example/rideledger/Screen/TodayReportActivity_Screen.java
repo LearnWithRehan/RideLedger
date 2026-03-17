@@ -1,13 +1,21 @@
 package com.example.rideledger.Screen;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +25,8 @@ import com.example.rideledger.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,7 +64,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         tvTotalProfit = findViewById(R.id.tvTotalProfit);
         tvTotalFuel = findViewById(R.id.tvTotalFuel);
         tvTotalCng = findViewById(R.id.tvTotalCng);
-
+        ImageView btnPdf = findViewById(R.id.btnPdf);
         recyclerReport = findViewById(R.id.recyclerReport);
 
         recyclerReport.setLayoutManager(new LinearLayoutManager(this));
@@ -81,6 +91,170 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
         });
 
+        btnPdf.setOnClickListener(v -> {
+            generatePDF();
+        });
+
+    }
+
+
+    private void generatePDF() {
+
+        PdfDocument pdfDocument = new PdfDocument();
+
+        Paint titlePaint = new Paint();
+        Paint headerPaint = new Paint();
+        Paint labelPaint = new Paint();
+        Paint valuePaint = new Paint();
+        Paint boxPaint = new Paint();
+
+        PdfDocument.PageInfo pageInfo =
+                new PdfDocument.PageInfo.Builder(1200, 2000, 1).create();
+
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+
+        int y = 80;
+
+        // 🔷 HEADER BACKGROUND
+        headerPaint.setColor(Color.parseColor("#3F51B5"));
+        canvas.drawRect(0, 0, 1200, 180, headerPaint);
+
+        // 🔷 TITLE
+        titlePaint.setColor(Color.WHITE);
+        titlePaint.setTextSize(42);
+        titlePaint.setFakeBoldText(true);
+        canvas.drawText("Ride Report", 420, 90, titlePaint);
+
+        // 🚘 Vehicle Number
+        titlePaint.setTextSize(26);
+        canvas.drawText("Vehicle: HR55AZ9134", 420, 130, titlePaint);
+
+        y = 220;
+
+        // 📅 Date
+        String currentDate = new SimpleDateFormat("dd MMM yyyy, hh:mm a")
+                .format(new Date());
+
+        labelPaint.setTextSize(24);
+        labelPaint.setFakeBoldText(true);
+        canvas.drawText("Generated: " + currentDate, 40, y, labelPaint);
+
+        y += 40;
+
+        canvas.drawText("From: " + etFromDate.getText(), 40, y, labelPaint);
+        y += 30;
+        canvas.drawText("To: " + etToDate.getText(), 40, y, labelPaint);
+
+        y += 60;
+
+        // 🎯 SUMMARY BOX STYLE
+        int boxWidth = 250;
+        int boxHeight = 120;
+        int startX = 40;
+
+        // Total Amount
+        boxPaint.setColor(Color.parseColor("#E3F2FD"));
+        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+
+        labelPaint.setColor(Color.BLACK);
+        canvas.drawText("Amount", startX + 20, y + 40, labelPaint);
+
+        valuePaint.setTextSize(28);
+        valuePaint.setFakeBoldText(true);
+        canvas.drawText("₹ " + tvTotalAmount.getText(), startX + 20, y + 90, valuePaint);
+
+        // Fuel
+        startX += 270;
+        boxPaint.setColor(Color.parseColor("#FFF3E0"));
+        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+
+        canvas.drawText("Fuel", startX + 20, y + 40, labelPaint);
+        canvas.drawText("₹ " + tvTotalFuel.getText(), startX + 20, y + 90, valuePaint);
+
+        // CNG
+        startX += 270;
+        boxPaint.setColor(Color.parseColor("#F3E5F5"));
+        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+
+        canvas.drawText("CNG", startX + 20, y + 40, labelPaint);
+        canvas.drawText("₹ " + tvTotalCng.getText(), startX + 20, y + 90, valuePaint);
+
+        // Profit
+        startX += 270;
+        boxPaint.setColor(Color.parseColor("#E8F5E9"));
+        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+
+        canvas.drawText("Profit", startX + 20, y + 40, labelPaint);
+        canvas.drawText("₹ " + tvTotalProfit.getText(), startX + 20, y + 90, valuePaint);
+
+        y += 160;
+
+        // 🔻 Divider
+        Paint linePaint = new Paint();
+        linePaint.setStrokeWidth(2);
+        canvas.drawLine(40, y, 1160, y, linePaint);
+
+        y += 40;
+
+        // 📄 LIST HEADER
+        labelPaint.setFakeBoldText(true);
+        canvas.drawText("Ride Details", 40, y, labelPaint);
+
+        y += 40;
+
+        // 📋 LIST DATA
+        for (RideModel model : list) {
+
+            // Card background
+            boxPaint.setColor(Color.parseColor("#FAFAFA"));
+            canvas.drawRect(40, y - 30, 1160, y + 100, boxPaint);
+
+            // Platform
+            labelPaint.setColor(Color.parseColor("#1A237E"));
+            canvas.drawText(model.getPlatform(), 60, y, labelPaint);
+
+            // Cash & Online
+            labelPaint.setColor(Color.BLACK);
+            canvas.drawText("Cash: ₹" + model.getCash()
+                    + " | Online: ₹" + model.getOnline(), 60, y + 30, labelPaint);
+
+            // Fuel & CNG
+            canvas.drawText("Fuel: ₹" + model.getFuel()
+                    + " | CNG: ₹" + model.getCng(), 60, y + 60, labelPaint);
+
+            // Profit
+            labelPaint.setColor(Color.parseColor("#2E7D32"));
+            canvas.drawText("Profit: ₹" + model.getProfit(), 60, y + 90, labelPaint);
+
+            y += 140;
+        }
+
+        pdfDocument.finishPage(page);
+
+        try {
+
+            File file = new File(getExternalFilesDir(null), "RideReport.pdf");
+            pdfDocument.writeTo(new FileOutputStream(file));
+
+            Uri uri = FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    file
+            );
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(intent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error opening PDF", Toast.LENGTH_SHORT).show();
+        }
+
+        pdfDocument.close();
     }
 
 
