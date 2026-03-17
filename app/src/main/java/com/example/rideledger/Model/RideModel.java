@@ -15,6 +15,17 @@ public class RideModel {
     public String createdDate;
     public String userId;
 
+    private String docId;
+
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+
     public RideModel(){}
 
     public RideModel(String date,String platform,int cash,int online,int fuel,int cng,int total,int profit){

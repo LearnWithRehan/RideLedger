@@ -1,5 +1,6 @@
 package com.example.rideledger.Screen;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.rideledger.Adapter.TodayRideAdapter;
+import com.example.rideledger.Adapter.EntryReideAdapter;
 import com.example.rideledger.Model.RideModel;
 import com.example.rideledger.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -42,7 +43,7 @@ public class RideEntry_Screen extends AppCompatActivity {
 
 
     RecyclerView recyclerTodayRide;
-    TodayRideAdapter adapter;
+    EntryReideAdapter adapter;
     List<RideModel> list = new ArrayList<>();
 
 
@@ -69,7 +70,31 @@ public class RideEntry_Screen extends AppCompatActivity {
         recyclerTodayRide.setLayoutManager(new LinearLayoutManager(this));
         recyclerTodayRide.setNestedScrollingEnabled(false);
 
-        adapter = new TodayRideAdapter(this, list);
+        adapter = new EntryReideAdapter(this, list, (model, position) -> {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Entry")
+                    .setMessage("This action will permanently delete the selected ride. Do you want to continue?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+
+                        db.collection("ride_entries")
+                                .document(model.getDocId())
+                                .delete()
+                                .addOnSuccessListener(unused -> {
+
+                                    list.remove(position);
+                                    adapter.notifyItemRemoved(position);
+
+                                    updateTodayProfit();
+
+                                    Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
+                                });
+
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+
+        });
         recyclerTodayRide.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
@@ -112,6 +137,7 @@ public class RideEntry_Screen extends AppCompatActivity {
                     for(DocumentSnapshot doc : queryDocumentSnapshots){
 
                         RideModel model = doc.toObject(RideModel.class);
+                        model.setDocId(doc.getId());
                         list.add(model);
 
                     }
