@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         list.add(new DashboardItem("🧾", "Ride Entry"));
         list.add(new DashboardItem("📅", "Date Wise Report"));
         list.add(new DashboardItem("💰", "Earnings Dashboard"));
+        list.add(new DashboardItem("➕", "Add Expense"));
 
         recyclerDashboard.setLayoutManager(new GridLayoutManager(this,2));
         recyclerDashboard.setAdapter(new DashboardAdapter(this,list));
