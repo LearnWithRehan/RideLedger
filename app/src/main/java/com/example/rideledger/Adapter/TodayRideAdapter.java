@@ -44,6 +44,8 @@ public class TodayRideAdapter extends RecyclerView.Adapter<TodayRideAdapter.View
 
         holder.tvPlatform.setText(model.getPlatform());
 
+        holder.tvDate.setText(model.rideDate);
+
         holder.tvCash.setText("Cash ₹ " + model.getCash());
         holder.tvOnline.setText("Online ₹ " + model.getOnline());
 
@@ -61,7 +63,7 @@ public class TodayRideAdapter extends RecyclerView.Adapter<TodayRideAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvPlatform,tvCash,tvOnline,tvFuel,tvCng,tvProfit;
+        TextView tvPlatform,tvCash,tvOnline,tvFuel,tvCng,tvProfit,tvDate;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -72,6 +74,7 @@ public class TodayRideAdapter extends RecyclerView.Adapter<TodayRideAdapter.View
             tvFuel = itemView.findViewById(R.id.tvFuel);
             tvCng = itemView.findViewById(R.id.tvCng);
             tvProfit = itemView.findViewById(R.id.tvProfit);
+            tvDate = itemView.findViewById(R.id.tvDate);
         }
     }
 }
