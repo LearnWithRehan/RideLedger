@@ -116,9 +116,10 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
-                   // HashMap<String, Integer> map = new HashMap<>();
-                    HashMap<String, Integer> map = new HashMap<>();
+
+                    reportList.clear();
                     int grandTotal = 0;
+
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
 
                         ExpenseModel model = doc.toObject(ExpenseModel.class);
@@ -131,17 +132,15 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
                             if (expenseDate.compareTo(fromDate) >= 0 &&
                                     expenseDate.compareTo(toDate) <= 0) {
 
-                             //   String dateKey = model.getExpenseDate();
-                                String dateKey = model.getExpenseDate() + "_" + model.getType();
-                                int amount = model.getAmount();
+                                // 🔥 DIRECT ADD (NO GROUPING)
+                                reportList.add(new ReportModel(
+                                        model.getExpenseDate(),
+                                        model.getType(),
+                                        model.getAmount()
+                                ));
 
-                                grandTotal += amount;
-
-                                if (map.containsKey(dateKey)) {
-                                    map.put(dateKey, map.get(dateKey) + amount);
-                                } else {
-                                    map.put(dateKey, amount);
-                                }
+                                // TOTAL
+                                grandTotal += model.getAmount();
                             }
 
                         } catch (Exception e) {
@@ -149,17 +148,7 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
                         }
                     }
 
-                    reportList.clear();
 
-                    for (String key : map.keySet()) {
-
-                        String[] parts = key.split("_");
-
-                        String date = parts[0];
-                        String type = parts[1];
-
-                        reportList.add(new ReportModel(date, type, map.get(key)));
-                    }
 
                     Collections.sort(reportList, (a, b) -> {
                         try {
@@ -192,6 +181,149 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
 
 
 
+//
+//    private void generatePDF() {
+//
+//        PdfDocument pdfDocument = new PdfDocument();
+//
+//        Paint titlePaint = new Paint();
+//        Paint headerPaint = new Paint();
+//        Paint textPaint = new Paint();
+//        Paint boxPaint = new Paint();
+//
+//        PdfDocument.PageInfo pageInfo =
+//                new PdfDocument.PageInfo.Builder(1200, 2000, 1).create();
+//
+//        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+//        Canvas canvas = page.getCanvas();
+//
+//        int y = 80;
+//
+//        // 🔷 HEADER
+//        headerPaint.setColor(Color.parseColor("#009688"));
+//        canvas.drawRect(0, 0, 1200, 180, headerPaint);
+//
+//        titlePaint.setColor(Color.WHITE);
+//        titlePaint.setTextSize(42);
+//        titlePaint.setFakeBoldText(true);
+//        canvas.drawText("Expense Report", 380, 100, titlePaint);
+//
+//        y = 220;
+//
+//        // 📅 DATE INFO
+//        textPaint.setTextSize(24);
+//        textPaint.setFakeBoldText(true);
+//
+//        String currentDate = new SimpleDateFormat("dd MMM yyyy, hh:mm a")
+//                .format(new Date());
+//
+//        canvas.drawText("Generated: " + currentDate, 40, y, textPaint);
+//
+//        y += 40;
+//        canvas.drawText("From: " + etFromDate.getText().toString(), 40, y, textPaint);
+//
+//        y += 30;
+//        canvas.drawText("To: " + etToDate.getText().toString(), 40, y, textPaint);
+//
+//        y += 60;
+//
+//        // 🎯 TOTAL BOX
+//        boxPaint.setColor(Color.parseColor("#E3F2FD"));
+//        canvas.drawRect(40, y, 500, y + 120, boxPaint);
+//
+//        textPaint.setColor(Color.BLACK);
+//        canvas.drawText("Total Expense", 60, y + 40, textPaint);
+//
+//        textPaint.setTextSize(32);
+//        textPaint.setFakeBoldText(true);
+//        canvas.drawText(tvTotalAmount.getText().toString(), 60, y + 90, textPaint);
+//
+//        y += 180;
+//
+//        // 🔻 Divider
+//        Paint linePaint = new Paint();
+//        linePaint.setStrokeWidth(2);
+//        canvas.drawLine(40, y, 1160, y, linePaint);
+//
+//        y += 40;
+//
+//        // 📄 HEADER
+//        textPaint.setTextSize(26);
+//        textPaint.setFakeBoldText(true);
+//        canvas.drawText("Date", 60, y, textPaint);
+//        canvas.drawText("Amount", 900, y, textPaint);
+//
+//        y += 30;
+//
+//        // 🔻 Divider
+//        canvas.drawLine(40, y, 1160, y, linePaint);
+//
+//        y += 40;
+//
+//        // 📋 DATA LIST (🔥 MAIN PART)
+//        textPaint.setTextSize(22);
+//        textPaint.setFakeBoldText(false);
+//
+//        for (ReportModel model : reportList) {
+//
+//            boxPaint.setColor(Color.parseColor("#FAFAFA"));
+//            canvas.drawRect(40, y - 25, 1160, y + 70, boxPaint);
+//
+//            // TYPE + DATE
+//            textPaint.setColor(Color.BLACK);
+//            canvas.drawText(model.getType() + " (" + model.getDate() + ")", 60, y, textPaint);
+//
+//            // AMOUNT
+//            textPaint.setColor(Color.parseColor("#D32F2F"));
+//            canvas.drawText("₹ " + model.getTotalAmount(), 900, y, textPaint);
+//
+//            y += 80;
+//        }
+//
+//        pdfDocument.finishPage(page);
+//
+//        try {
+//
+//            File file = new File(getExternalFilesDir(null), "ExpenseReport.pdf");
+//            pdfDocument.writeTo(new FileOutputStream(file));
+//
+//            Uri uri = FileProvider.getUriForFile(
+//                    this,
+//                    getPackageName() + ".provider",
+//                    file
+//            );
+//
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setDataAndType(uri, "application/pdf");
+//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//            startActivity(intent);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Error opening PDF", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        pdfDocument.close();
+//    }
+
+
+
+
+
+
+    private void drawHeader(Canvas canvas, Paint headerPaint, Paint titlePaint, int pageWidth) {
+
+        headerPaint.setColor(Color.parseColor("#009688"));
+        canvas.drawRect(0, 0, pageWidth, 180, headerPaint);
+
+        titlePaint.setColor(Color.WHITE);
+        titlePaint.setTextSize(42);
+        titlePaint.setFakeBoldText(true);
+        canvas.drawText("Expense Report", 380, 100, titlePaint);
+    }
+
+
 
     private void generatePDF() {
 
@@ -201,27 +333,26 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
         Paint headerPaint = new Paint();
         Paint textPaint = new Paint();
         Paint boxPaint = new Paint();
+        Paint linePaint = new Paint();
+
+        int pageWidth = 1200;
+        int pageHeight = 2000;
+
+        int y = 80;
+        int pageNumber = 1;
 
         PdfDocument.PageInfo pageInfo =
-                new PdfDocument.PageInfo.Builder(1200, 2000, 1).create();
+                new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create();
 
         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
-        int y = 80;
-
         // 🔷 HEADER
-        headerPaint.setColor(Color.parseColor("#009688"));
-        canvas.drawRect(0, 0, 1200, 180, headerPaint);
-
-        titlePaint.setColor(Color.WHITE);
-        titlePaint.setTextSize(42);
-        titlePaint.setFakeBoldText(true);
-        canvas.drawText("Expense Report", 380, 100, titlePaint);
+        drawHeader(canvas, headerPaint, titlePaint, pageWidth);
 
         y = 220;
 
-        // 📅 DATE INFO
+        // 📅 DATE
         textPaint.setTextSize(24);
         textPaint.setFakeBoldText(true);
 
@@ -229,83 +360,73 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
                 .format(new Date());
 
         canvas.drawText("Generated: " + currentDate, 40, y, textPaint);
-
         y += 40;
         canvas.drawText("From: " + etFromDate.getText().toString(), 40, y, textPaint);
-
         y += 30;
         canvas.drawText("To: " + etToDate.getText().toString(), 40, y, textPaint);
 
         y += 60;
 
-        // 🎯 TOTAL BOX
+        // 🎯 TOTAL
         boxPaint.setColor(Color.parseColor("#E3F2FD"));
         canvas.drawRect(40, y, 500, y + 120, boxPaint);
 
-        textPaint.setColor(Color.BLACK);
         canvas.drawText("Total Expense", 60, y + 40, textPaint);
 
         textPaint.setTextSize(32);
-        textPaint.setFakeBoldText(true);
         canvas.drawText(tvTotalAmount.getText().toString(), 60, y + 90, textPaint);
 
         y += 180;
 
-        // 🔻 Divider
-        Paint linePaint = new Paint();
         linePaint.setStrokeWidth(2);
         canvas.drawLine(40, y, 1160, y, linePaint);
 
         y += 40;
 
-        // 📄 HEADER
+        // HEADER ROW
         textPaint.setTextSize(26);
         textPaint.setFakeBoldText(true);
         canvas.drawText("Date", 60, y, textPaint);
         canvas.drawText("Amount", 900, y, textPaint);
 
         y += 30;
-
-        // 🔻 Divider
         canvas.drawLine(40, y, 1160, y, linePaint);
-
         y += 40;
 
-        // 📋 DATA LIST (🔥 MAIN PART)
         textPaint.setTextSize(22);
         textPaint.setFakeBoldText(false);
 
-//        for (ReportModel model : reportList) {
-//
-//            // Background
-//            boxPaint.setColor(Color.parseColor("#FAFAFA"));
-//            canvas.drawRect(40, y - 25, 1160, y + 50, boxPaint);
-//
-//            // Date
-//            textPaint.setColor(Color.BLACK);
-//            canvas.drawText(model.getDate(), 60, y, textPaint);
-//
-//            // Amount
-//            textPaint.setColor(Color.parseColor("#D32F2F"));
-//            canvas.drawText("₹ " + model.getTotalAmount(), 900, y, textPaint);
-//
-//            y += 70;
-//        }
-
+        // 🔥 LOOP
         for (ReportModel model : reportList) {
 
-            boxPaint.setColor(Color.parseColor("#FAFAFA"));
-            canvas.drawRect(40, y - 25, 1160, y + 70, boxPaint);
+            // 👉 PAGE BREAK
+            if (y > pageHeight - 100) {
 
-            // TYPE + DATE
+                pdfDocument.finishPage(page);
+
+                pageNumber++;
+
+                pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create();
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+
+                drawHeader(canvas, headerPaint, titlePaint, pageWidth);
+
+                y = 220;
+            }
+
+            // ROW BG
+            boxPaint.setColor(Color.parseColor("#FAFAFA"));
+            canvas.drawRect(40, y - 25, 1160, y + 50, boxPaint);
+
+            // TEXT
             textPaint.setColor(Color.BLACK);
             canvas.drawText(model.getType() + " (" + model.getDate() + ")", 60, y, textPaint);
 
-            // AMOUNT
             textPaint.setColor(Color.parseColor("#D32F2F"));
             canvas.drawText("₹ " + model.getTotalAmount(), 900, y, textPaint);
 
-            y += 80;
+            y += 70;
         }
 
         pdfDocument.finishPage(page);
@@ -334,7 +455,6 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
 
         pdfDocument.close();
     }
-
 
 
 

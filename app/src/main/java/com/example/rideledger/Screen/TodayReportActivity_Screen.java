@@ -99,6 +99,181 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
     }
 
 
+//    private void generatePDF() {
+//
+//        PdfDocument pdfDocument = new PdfDocument();
+//
+//        Paint titlePaint = new Paint();
+//        Paint headerPaint = new Paint();
+//        Paint labelPaint = new Paint();
+//        Paint valuePaint = new Paint();
+//        Paint boxPaint = new Paint();
+//
+//        PdfDocument.PageInfo pageInfo =
+//                new PdfDocument.PageInfo.Builder(1200, 2000, 1).create();
+//
+//        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+//        Canvas canvas = page.getCanvas();
+//
+//        int y = 80;
+//
+//        // 🔷 HEADER BACKGROUND
+//        headerPaint.setColor(Color.parseColor("#3F51B5"));
+//        canvas.drawRect(0, 0, 1200, 180, headerPaint);
+//
+//        // 🔷 TITLE
+//        titlePaint.setColor(Color.WHITE);
+//        titlePaint.setTextSize(42);
+//        titlePaint.setFakeBoldText(true);
+//        canvas.drawText("Ride Report", 420, 90, titlePaint);
+//
+//        // 🚘 Vehicle Number
+//        titlePaint.setTextSize(26);
+//        canvas.drawText("Vehicle: HR55AZ9134", 420, 130, titlePaint);
+//
+//        y = 220;
+//
+//        // 📅 Date
+//        String currentDate = new SimpleDateFormat("dd MMM yyyy, hh:mm a")
+//                .format(new Date());
+//
+//        labelPaint.setTextSize(24);
+//        labelPaint.setFakeBoldText(true);
+//        canvas.drawText("Generated: " + currentDate, 40, y, labelPaint);
+//
+//        y += 40;
+//
+//        canvas.drawText("From: " + etFromDate.getText(), 40, y, labelPaint);
+//        y += 30;
+//        canvas.drawText("To: " + etToDate.getText(), 40, y, labelPaint);
+//
+//        y += 60;
+//
+//        // 🎯 SUMMARY BOX STYLE
+//        int boxWidth = 250;
+//        int boxHeight = 120;
+//        int startX = 40;
+//
+//        // Total Amount
+//        boxPaint.setColor(Color.parseColor("#E3F2FD"));
+//        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+//
+//        labelPaint.setColor(Color.BLACK);
+//        canvas.drawText("Amount", startX + 20, y + 40, labelPaint);
+//
+//        valuePaint.setTextSize(28);
+//        valuePaint.setFakeBoldText(true);
+//        canvas.drawText("₹ " + tvTotalAmount.getText(), startX + 20, y + 90, valuePaint);
+//
+//        // Fuel
+//        startX += 270;
+//        boxPaint.setColor(Color.parseColor("#FFF3E0"));
+//        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+//
+//        canvas.drawText("Fuel", startX + 20, y + 40, labelPaint);
+//        canvas.drawText("₹ " + tvTotalFuel.getText(), startX + 20, y + 90, valuePaint);
+//
+//        // CNG
+//        startX += 270;
+//        boxPaint.setColor(Color.parseColor("#F3E5F5"));
+//        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+//
+//        canvas.drawText("CNG", startX + 20, y + 40, labelPaint);
+//        canvas.drawText("₹ " + tvTotalCng.getText(), startX + 20, y + 90, valuePaint);
+//
+//        // Profit
+//        startX += 270;
+//        boxPaint.setColor(Color.parseColor("#E8F5E9"));
+//        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+//
+//        canvas.drawText("Profit", startX + 20, y + 40, labelPaint);
+//        canvas.drawText("₹ " + tvTotalProfit.getText(), startX + 20, y + 90, valuePaint);
+//
+//        y += 160;
+//
+//        // 🔻 Divider
+//        Paint linePaint = new Paint();
+//        linePaint.setStrokeWidth(2);
+//        canvas.drawLine(40, y, 1160, y, linePaint);
+//
+//        y += 40;
+//
+//        // 📄 LIST HEADER
+//        labelPaint.setFakeBoldText(true);
+//        canvas.drawText("Ride Details", 40, y, labelPaint);
+//
+//        y += 40;
+//
+//        // 📋 LIST DATA
+//        for (RideModel model : list) {
+//
+//            // Card background
+//            boxPaint.setColor(Color.parseColor("#FAFAFA"));
+//            canvas.drawRect(40, y - 30, 1160, y + 100, boxPaint);
+//
+//            // Platform
+//            labelPaint.setColor(Color.parseColor("#1A237E"));
+//            canvas.drawText(model.getPlatform(), 60, y, labelPaint);
+//
+//            // Cash & Online
+//            labelPaint.setColor(Color.BLACK);
+//            canvas.drawText("Cash: ₹" + model.getCash()
+//                    + " | Online: ₹" + model.getOnline(), 60, y + 30, labelPaint);
+//
+//            // Fuel & CNG
+//            canvas.drawText("Fuel: ₹" + model.getFuel()
+//                    + " | CNG: ₹" + model.getCng(), 60, y + 60, labelPaint);
+//
+//            // Profit
+//            labelPaint.setColor(Color.parseColor("#2E7D32"));
+//            canvas.drawText("Profit: ₹" + model.getProfit(), 60, y + 90, labelPaint);
+//
+//            y += 140;
+//        }
+//
+//        pdfDocument.finishPage(page);
+//
+//        try {
+//
+//            File file = new File(getExternalFilesDir(null), "RideReport.pdf");
+//            pdfDocument.writeTo(new FileOutputStream(file));
+//
+//            Uri uri = FileProvider.getUriForFile(
+//                    this,
+//                    getPackageName() + ".provider",
+//                    file
+//            );
+//
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setDataAndType(uri, "application/pdf");
+//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//            startActivity(intent);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "Error opening PDF", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        pdfDocument.close();
+//    }
+
+    private void drawRideHeader(Canvas canvas, Paint headerPaint, Paint titlePaint, int pageWidth) {
+
+        headerPaint.setColor(Color.parseColor("#3F51B5"));
+        canvas.drawRect(0, 0, pageWidth, 180, headerPaint);
+
+        titlePaint.setColor(Color.WHITE);
+        titlePaint.setTextSize(42);
+        titlePaint.setFakeBoldText(true);
+        canvas.drawText("Ride Report", 420, 90, titlePaint);
+
+        titlePaint.setTextSize(26);
+        canvas.drawText("Vehicle: HR55AZ9134", 420, 130, titlePaint);
+    }
+
+
+
     private void generatePDF() {
 
         PdfDocument pdfDocument = new PdfDocument();
@@ -108,68 +283,58 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         Paint labelPaint = new Paint();
         Paint valuePaint = new Paint();
         Paint boxPaint = new Paint();
+        Paint linePaint = new Paint();
+
+        int pageWidth = 1200;
+        int pageHeight = 2000;
+
+        int y = 80;
+        int pageNumber = 1;
 
         PdfDocument.PageInfo pageInfo =
-                new PdfDocument.PageInfo.Builder(1200, 2000, 1).create();
+                new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create();
 
         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
-        int y = 80;
-
-        // 🔷 HEADER BACKGROUND
-        headerPaint.setColor(Color.parseColor("#3F51B5"));
-        canvas.drawRect(0, 0, 1200, 180, headerPaint);
-
-        // 🔷 TITLE
-        titlePaint.setColor(Color.WHITE);
-        titlePaint.setTextSize(42);
-        titlePaint.setFakeBoldText(true);
-        canvas.drawText("Ride Report", 420, 90, titlePaint);
-
-        // 🚘 Vehicle Number
-        titlePaint.setTextSize(26);
-        canvas.drawText("Vehicle: HR55AZ9134", 420, 130, titlePaint);
+        // 🔷 HEADER
+        drawRideHeader(canvas, headerPaint, titlePaint, pageWidth);
 
         y = 220;
 
-        // 📅 Date
+        // 📅 DATE
         String currentDate = new SimpleDateFormat("dd MMM yyyy, hh:mm a")
                 .format(new Date());
 
         labelPaint.setTextSize(24);
         labelPaint.setFakeBoldText(true);
+
         canvas.drawText("Generated: " + currentDate, 40, y, labelPaint);
-
         y += 40;
-
         canvas.drawText("From: " + etFromDate.getText(), 40, y, labelPaint);
         y += 30;
         canvas.drawText("To: " + etToDate.getText(), 40, y, labelPaint);
 
         y += 60;
 
-        // 🎯 SUMMARY BOX STYLE
+        // 🎯 SUMMARY
         int boxWidth = 250;
         int boxHeight = 120;
         int startX = 40;
 
-        // Total Amount
-        boxPaint.setColor(Color.parseColor("#E3F2FD"));
-        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
-
-        labelPaint.setColor(Color.BLACK);
-        canvas.drawText("Amount", startX + 20, y + 40, labelPaint);
-
         valuePaint.setTextSize(28);
         valuePaint.setFakeBoldText(true);
+
+        // Amount
+        boxPaint.setColor(Color.parseColor("#E3F2FD"));
+        canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
+        canvas.drawText("Amount", startX + 20, y + 40, labelPaint);
         canvas.drawText("₹ " + tvTotalAmount.getText(), startX + 20, y + 90, valuePaint);
 
         // Fuel
         startX += 270;
         boxPaint.setColor(Color.parseColor("#FFF3E0"));
         canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
-
         canvas.drawText("Fuel", startX + 20, y + 40, labelPaint);
         canvas.drawText("₹ " + tvTotalFuel.getText(), startX + 20, y + 90, valuePaint);
 
@@ -177,7 +342,6 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         startX += 270;
         boxPaint.setColor(Color.parseColor("#F3E5F5"));
         canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
-
         canvas.drawText("CNG", startX + 20, y + 40, labelPaint);
         canvas.drawText("₹ " + tvTotalCng.getText(), startX + 20, y + 90, valuePaint);
 
@@ -185,35 +349,64 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         startX += 270;
         boxPaint.setColor(Color.parseColor("#E8F5E9"));
         canvas.drawRect(startX, y, startX + boxWidth, y + boxHeight, boxPaint);
-
         canvas.drawText("Profit", startX + 20, y + 40, labelPaint);
         canvas.drawText("₹ " + tvTotalProfit.getText(), startX + 20, y + 90, valuePaint);
 
         y += 160;
 
         // 🔻 Divider
-        Paint linePaint = new Paint();
         linePaint.setStrokeWidth(2);
         canvas.drawLine(40, y, 1160, y, linePaint);
 
         y += 40;
 
-        // 📄 LIST HEADER
-        labelPaint.setFakeBoldText(true);
+        // 📄 TITLE
         canvas.drawText("Ride Details", 40, y, labelPaint);
 
         y += 40;
 
-        // 📋 LIST DATA
+        // 📋 LIST LOOP (🔥 MULTI PAGE FIX)
         for (RideModel model : list) {
 
-            // Card background
+            // 👉 PAGE BREAK
+            if (y > pageHeight - 150) {
+
+                pdfDocument.finishPage(page);
+
+                pageNumber++;
+
+                pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create();
+                page = pdfDocument.startPage(pageInfo);
+                canvas = page.getCanvas();
+
+                drawRideHeader(canvas, headerPaint, titlePaint, pageWidth);
+
+                y = 220;
+            }
+
+            // CARD BG
             boxPaint.setColor(Color.parseColor("#FAFAFA"));
             canvas.drawRect(40, y - 30, 1160, y + 100, boxPaint);
 
-            // Platform
+//            // Date
+//            labelPaint.setColor(Color.parseColor("#1A237E"));
+//            canvas.drawText(model.getRideDate(), 60, y, labelPaint);
+//
+//
+//            // Platform
+//            labelPaint.setColor(Color.parseColor("#1A237E"));
+//            canvas.drawText(model.getPlatform(), 60, y, labelPaint);
+
+            // Date + Platform ek line me
             labelPaint.setColor(Color.parseColor("#1A237E"));
-            canvas.drawText(model.getPlatform(), 60, y, labelPaint);
+            labelPaint.setFakeBoldText(true);
+
+            canvas.drawText(
+                    model.getPlatform() + " (" + model.getRideDate() + ")",
+                    60,
+                    y,
+                    labelPaint
+            );
 
             // Cash & Online
             labelPaint.setColor(Color.BLACK);
@@ -257,6 +450,8 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
 
         pdfDocument.close();
     }
+
+
 
 
     private void setupDatePicker(EditText editText){
