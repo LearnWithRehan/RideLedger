@@ -52,7 +52,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         }
 
         // 👉 Optional: Type show (if needed)
-        holder.tvType.setText("Daily Expense");
+     //   holder.tvType.setText("Daily Expense");
+        holder.tvType.setText(model.getType());
     }
 
     @Override

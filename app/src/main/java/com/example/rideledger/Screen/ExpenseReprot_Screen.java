@@ -116,6 +116,7 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
+                   // HashMap<String, Integer> map = new HashMap<>();
                     HashMap<String, Integer> map = new HashMap<>();
                     int grandTotal = 0;
                     for (DocumentSnapshot doc : queryDocumentSnapshots) {
@@ -130,7 +131,8 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
                             if (expenseDate.compareTo(fromDate) >= 0 &&
                                     expenseDate.compareTo(toDate) <= 0) {
 
-                                String dateKey = model.getExpenseDate();
+                             //   String dateKey = model.getExpenseDate();
+                                String dateKey = model.getExpenseDate() + "_" + model.getType();
                                 int amount = model.getAmount();
 
                                 grandTotal += amount;
@@ -149,8 +151,14 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
 
                     reportList.clear();
 
-                    for (String date : map.keySet()) {
-                        reportList.add(new ReportModel(date, map.get(date)));
+                    for (String key : map.keySet()) {
+
+                        String[] parts = key.split("_");
+
+                        String date = parts[0];
+                        String type = parts[1];
+
+                        reportList.add(new ReportModel(date, type, map.get(key)));
                     }
 
                     Collections.sort(reportList, (a, b) -> {
@@ -267,21 +275,37 @@ public class ExpenseReprot_Screen extends AppCompatActivity {
         textPaint.setTextSize(22);
         textPaint.setFakeBoldText(false);
 
+//        for (ReportModel model : reportList) {
+//
+//            // Background
+//            boxPaint.setColor(Color.parseColor("#FAFAFA"));
+//            canvas.drawRect(40, y - 25, 1160, y + 50, boxPaint);
+//
+//            // Date
+//            textPaint.setColor(Color.BLACK);
+//            canvas.drawText(model.getDate(), 60, y, textPaint);
+//
+//            // Amount
+//            textPaint.setColor(Color.parseColor("#D32F2F"));
+//            canvas.drawText("₹ " + model.getTotalAmount(), 900, y, textPaint);
+//
+//            y += 70;
+//        }
+
         for (ReportModel model : reportList) {
 
-            // Background
             boxPaint.setColor(Color.parseColor("#FAFAFA"));
-            canvas.drawRect(40, y - 25, 1160, y + 50, boxPaint);
+            canvas.drawRect(40, y - 25, 1160, y + 70, boxPaint);
 
-            // Date
+            // TYPE + DATE
             textPaint.setColor(Color.BLACK);
-            canvas.drawText(model.getDate(), 60, y, textPaint);
+            canvas.drawText(model.getType() + " (" + model.getDate() + ")", 60, y, textPaint);
 
-            // Amount
+            // AMOUNT
             textPaint.setColor(Color.parseColor("#D32F2F"));
             canvas.drawText("₹ " + model.getTotalAmount(), 900, y, textPaint);
 
-            y += 70;
+            y += 80;
         }
 
         pdfDocument.finishPage(page);
