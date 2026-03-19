@@ -116,7 +116,7 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="4">
+                android:columnCount="5">
 
                 <!-- TOTAL INCOME -->
 
@@ -230,6 +230,44 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
+
+                <!-- EXPENSE -->
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="90dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="6dp"-->
+<!--                    app:cardCornerRadius="14dp"-->
+<!--                    app:cardElevation="6dp">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent">-->
+
+<!--                        <TextView-->
+<!--                            android:text="Expense"-->
+<!--                            android:textColor="#D32F2F"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textSize="14sp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/tvTotalExpense"-->
+<!--                            android:text="₹0"-->
+<!--                            android:textSize="18sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textColor="#D32F2F"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.cardview.widget.CardView>-->
 
 
                 <!-- PROFIT -->

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rideledger.Model.DashboardItem;
 import com.example.rideledger.R;
 import com.example.rideledger.Screen.ExpenseEntryActivity;
+import com.example.rideledger.Screen.ExpenseReprot_Screen;
 import com.example.rideledger.Screen.PlatfomrWiseIncome_Screen;
 import com.example.rideledger.Screen.RideEntry_Screen;
 import com.example.rideledger.Screen.TodayReportActivity_Screen;
@@ -68,6 +69,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             else if (position == 3) {
 
                 Intent intent = new Intent(context, ExpenseEntryActivity.class);
+                context.startActivity(intent);
+
+            }
+
+            else if (position == 4) {
+
+                Intent intent = new Intent(context, ExpenseReprot_Screen.class);
                 context.startActivity(intent);
 
             }

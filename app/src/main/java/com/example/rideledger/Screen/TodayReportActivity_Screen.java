@@ -39,7 +39,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
     EditText etFromDate, etToDate;
     Button btnShow;
 
-    TextView tvTotalAmount,tvTotalProfit, tvTotalFuel, tvTotalCng;
+    TextView tvTotalAmount,tvTotalProfit, tvTotalFuel, tvTotalCng,tvTotalExpense;
 
     RecyclerView recyclerReport;
 
@@ -64,6 +64,7 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         tvTotalProfit = findViewById(R.id.tvTotalProfit);
         tvTotalFuel = findViewById(R.id.tvTotalFuel);
         tvTotalCng = findViewById(R.id.tvTotalCng);
+       // tvTotalExpense = findViewById(R.id.tvTotalExpense);
         ImageView btnPdf = findViewById(R.id.btnPdf);
         recyclerReport = findViewById(R.id.recyclerReport);
 
@@ -341,5 +342,102 @@ public class TodayReportActivity_Screen extends AppCompatActivity {
         }
 
     }
+
+
+
+//    private void loadReport(String fromDate, String toDate){
+//
+//        try {
+//
+//            Date from = sdf.parse(fromDate);
+//            Date to = sdf.parse(toDate);
+//
+//            db.collection("ride_entries")
+//                    .get()
+//                    .addOnSuccessListener(queryDocumentSnapshots -> {
+//
+//                        list.clear();
+//
+//                        final int[] totalAmount = {0};
+//                        final int[] totalProfit = {0};
+//                        final int[] totalFuel = {0};
+//                        final int[] totalCng = {0};
+//
+//                        for(DocumentSnapshot doc : queryDocumentSnapshots){
+//
+//                            RideModel model = doc.toObject(RideModel.class);
+//
+//                            try {
+//
+//                                Date ride = sdf.parse(model.getRideDate());
+//
+//                                if(ride.compareTo(from) >= 0 && ride.compareTo(to) <= 0){
+//
+//                                    list.add(model);
+//
+//                                    totalAmount[0] += model.getTotal();
+//                                    totalProfit[0] += model.getProfit();
+//                                    totalFuel[0] += model.getFuel();
+//                                    totalCng[0] += model.getCng();
+//
+//                                }
+//
+//                            } catch (ParseException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//
+//                        // 🔥 EXPENSE FETCH
+//                        db.collection("expenses")
+//                                .get()
+//                                .addOnSuccessListener(expenseSnapshots -> {
+//
+//                                    final int[] totalExpense = {0};
+//
+//                                    for(DocumentSnapshot doc : expenseSnapshots){
+//
+//                                        String date = doc.getString("date");
+//
+//                                        Long amt = doc.getLong("amount");
+//                                        int amount = (amt != null) ? amt.intValue() : 0;
+//
+//                                        try {
+//
+//                                            Date expDate = sdf.parse(date);
+//
+//                                            if(expDate.compareTo(from) >= 0 && expDate.compareTo(to) <= 0){
+//                                                totalExpense[0] += amount;
+//                                            }
+//
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//
+//                                    }
+//
+//                                    // 🔥 FINAL PROFIT
+//                                    int finalProfit = totalProfit[0] - totalExpense[0];
+//
+//                                    // ✅ UI UPDATE
+//                                    adapter.notifyDataSetChanged();
+//
+//                                    tvTotalAmount.setText("₹" + totalAmount[0]);
+//                                    tvTotalFuel.setText("₹" + totalFuel[0]);
+//                                    tvTotalCng.setText("₹" + totalCng[0]);
+//                                    tvTotalExpense.setText("₹" + totalExpense[0]);
+//                                    tvTotalProfit.setText("₹" + finalProfit);
+//
+//                                });
+//
+//                    });
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+
+
 
 }

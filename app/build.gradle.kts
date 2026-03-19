@@ -26,6 +26,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,27 +35,28 @@ android {
 
 dependencies {
 
+    // ✅ Android basic libs
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.firestore)
+
+    // ✅ Firebase BOM (MOST IMPORTANT 🔥)
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+
+    // ✅ Firebase (NO VERSION HERE)
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-inappmessaging")
+
+    // ✅ Google Credentials
     implementation(libs.credentials)
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
+
+    // ✅ Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-
-    implementation ("com.google.android.material:material:1.11.0")
-
-    implementation ("com.google.firebase:firebase-auth:22.3.0")
-
-    implementation ("com.google.firebase:firebase-firestore:24.11.0")
-
-
-
-
 }
